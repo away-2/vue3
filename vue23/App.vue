@@ -10,20 +10,30 @@
 <script setup>
 import NavBar from './src/components/NavBar.vue';
 import { reactive, onMounted } from 'vue' // composition  api
-import API from './src/api/index'
+import API from './src/api/index'  // 模块化  分离代码   代码的管理和复用
 
 // 状态可改变 
-const state = reactive ({
+const state = reactive({
   loading: true,
-  posts:[]
+  posts: []
 })
 
-onMounted(() =>{
+onMounted(() => {
   console.log('挂载了....')
-  // API.getTopStories()
+  API
+    .getTopStories()
+    .then((res) => {
+      const { data } =res 
+      data = data.splice(0,30);     
+      // console.log(data)
+      data.foreach(id =>{
+        API
+          .fetchItem(id)
+      })
+      
+    })
 })
 
 </script>
 
-<style>
-</style>
+<style></style>

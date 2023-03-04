@@ -54,7 +54,6 @@
 
 
 writable（可写）、enumerable（可枚举/可遍历）和configurable（可配置）。
-aaaaa
 
 
 
