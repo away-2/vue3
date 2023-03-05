@@ -13,8 +13,14 @@ function getTopStories() {
     return instance.get('topstories.json?print=pretty')
 }
 
+function fetchItem(id) {
+    return instance.get(`item/${id}.json?print=pretty`)
+}
+
 const API = {
-    getTopStories: getTopStories
+    getTopStories: getTopStories,
+    fetchItem: fetchItem
+
 }
 
 export default API
