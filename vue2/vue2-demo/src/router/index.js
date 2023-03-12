@@ -3,7 +3,7 @@ import goods from '../views/goods/goods.vue'
 
 const routes = [{
     path: '/',
-    redirect: '/goods'
+    // redirect: '/goods'
 }, {
     path: '/goods',
     component: goods
