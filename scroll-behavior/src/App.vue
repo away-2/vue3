@@ -62,7 +62,8 @@ nextTick(() =>{
     &.active
         background-color pink 
         .item_logo
-             width 0
+            transition width .3s
+            width 0
     .item
         width 40px
         height 40px
@@ -71,7 +72,4 @@ nextTick(() =>{
         &.item_main
             flex 1
             background-color green
-            &.item_logo
-                transition all .3s
-                width 0
 </style>
