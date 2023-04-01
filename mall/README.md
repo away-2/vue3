@@ -1,6 +1,20 @@
 # vue3 写商城
 - 简历需要
 
+- 工程化  vite
+    前端工程化  运行在服务器端  node
+    .vue  style lang="stylus"   css  工程  stylus | less
+    stylus -> vite  -> npm i stylus  -> 转译为css ->  页面上的css
+    vite.config.js  vite 配置文件  工程化定制
+
+- 组件化思想
+    state  状态对象， 响应式   数据驱动界面
+    常规的组件数据都放到state 中  由 reactive({...})
+    子组件和state 诞生依赖关系  热更新 
+    components 组件  有利于 页面级组件或大组件更好维护， template 比较简洁
+    维护好数据状态  正确
+
+
 - 商业应用npm包
     - vant 有赞，  移动商城组件库
     - lib-flexible   移动适配库
@@ -13,6 +27,21 @@
                css  image
                main.css  base.css  @import  模块化
          - views  页面级别组件
+         - common  文件夹
+            通用的， 和具体业务无关， 可以在任何页面， 任何项目
+            style 通用的样式
+                - mixin.styl
+                    专门放通用的混合函数的地方
+        - service  api
+            定义接口的地方
+            方便统一管理接口  axios  baseURL ...
+            每个页面的接口一个独立的文件   易维护
+
+- 异步解决方案
+    - promise  es6  pending -> fulfilled
+    - 同步化   流程难控制
+    - es8 async + await  多个异步任务要同步化的时候  thenable 要简化 
+        
 
 - 全家桶
     - vue-router
@@ -42,6 +71,7 @@
 
 - stylus
     css 全新写法， 写起来更快， 很多的高级功能
+    css 的超级
     - npm  i  stylus
           安装stylus   css  预编译器
           用全新的写法来写css， stylus， 帮我们自动编译成css
@@ -51,6 +81,17 @@
         写了也没事
     - 表达父子元素的元素   css 模块
         缩进   自动加上父元素的限定
+    - 混合mixin
+        形式上是函数
+        封装某个功能样式的集合
+        混合到调用它的地方
+    - 申明变量
+    - scoped
+        防止css 类名冲突 
+        给组件加data-v-hash唯一值
+        选择器加上属性选择器
+    - &.active
+        & 引用上一级选择器
 
 - main.js   入口文件，有哪些工作
        全局性视野
