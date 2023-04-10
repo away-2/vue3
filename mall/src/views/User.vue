@@ -1,7 +1,7 @@
 <template>
     <div>
         User
-        <nav-bar />
+        <nav-bar/>
     </div>
 </template>
 

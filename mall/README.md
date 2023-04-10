@@ -120,4 +120,20 @@
                Mobile First   移动应用80%
                PC  工作   管理   后台
 
+- axios
+    - 接口请求里的顺丰
+        更专业
+        接口返回的数据， 再包一层  更好及更标准的使用， 更丰富的请求信息
+        http 了解更多 
+        axios 把接口返回的数据放在data中
+    - 拦截器  interceptors
+        axios  request/response
+        return res.data 
+
+- 骨架屏方案  用户体验优化
+    skeleton  vant 提供了这个组件
+    <van-skeleton :row="3" :loading="state.loading">
+        template 显示
+    </van-skeleton> 
+
                

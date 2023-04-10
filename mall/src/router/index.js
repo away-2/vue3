@@ -10,7 +10,7 @@ const router = createRouter({
     routes: [
         {
             path: '/',   // 根路径   login 
-            // http  状态码  3XX  跳转  向浏览器发送了一个3XXhttp状态码
+            // http 状态码  302 跳转 浏览器 
             redirect: '/home'  // 跳转
         },
         {

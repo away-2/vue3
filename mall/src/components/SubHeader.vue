@@ -11,6 +11,5 @@
 <style scoped>
 .home-header {
     background-color: green;
-
 }
 </style>

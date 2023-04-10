@@ -18,13 +18,68 @@
       </header>
       <nav-bar />
       <swiper :list="state.swiperList"/>  
-      <div class="category-list">
+      <section class="category-list">
           <div v-for="item in state.categoryList" :key="item.categoryId">
               <img :src="item.imgUrl">
               <span>{{item.name}}</span>
           </div>
-      </div>
+      </section>
+      <section class="goods">
+          <header class="goods-header">新品上线</header>
+          <van-skeleton title :row="3" :loading="state.loading">
+             <!-- slot 插槽 -->
+              <div class="goods-box">
+                  <div 
+                      class="goods-item" 
+                      v-for="item in state.newGoodses" 
+                      :key="item.goodsId">
+                      <img :src="item.goodsCoverImg" alt="">
+                      <div class="goods-desc">
+                          <div class="title">{{item.goodsName}}</div>
+                          <div class="price">￥{{item.sellingPrice}}</div>
+                      </div>
+                  </div>
+              </div>
+          </van-skeleton>
+      </section>
+      <section class="goods">
+          <header class="goods-header">热销商品</header>
+          <van-skeleton title :row="3" :loading="state.loading">
+             <!-- slot 插槽 -->
+              <div class="goods-box">
+                  <div 
+                      class="goods-item" 
+                      v-for="item in state.hotGoodses" 
+                      :key="item.goodsId">
+                      <img :src="item.goodsCoverImg" alt="">
+                      <div class="goods-desc">
+                          <div class="title">{{item.goodsName}}</div>
+                          <div class="price">￥{{item.sellingPrice}}</div>
+                      </div>
+                  </div>
+              </div>
+          </van-skeleton>
+      </section>
+      <section class="goods">
+          <header class="goods-header">推荐商品</header>
+          <van-skeleton title :row="3" :loading="state.loading">
+             <!-- slot 插槽 -->
+              <div class="goods-box">
+                  <div 
+                      class="goods-item" 
+                      v-for="item in state.recommendGoodses" 
+                      :key="item.goodsId">
+                      <img :src="item.goodsCoverImg" alt="">
+                      <div class="goods-desc">
+                          <div class="title">{{item.goodsName}}</div>
+                          <div class="price">￥{{item.sellingPrice}}</div>
+                      </div>
+                  </div>
+              </div>
+          </van-skeleton>
+      </section>
   </div>
+
 </template>
 
 <script setup>
@@ -43,6 +98,9 @@ import swiper from '~/Swiper.vue'
 // 数据和组件的状态是一一对应关系的 
 const state = reactive({
   swiperList: [],
+  newGoodses: [],
+  hotGoodses: [],
+  recommendGoodses: [],
   loading: true,
   categoryList: [
   {
@@ -94,9 +152,13 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
       message: '加载中...',
       forbidClick: true
   })
+  // 后台接口数据
   const { data } = await getHomeData() //  await  promise  api serverice
-  console.log(data)
-  state.swiperList = data.data.carousels
+  console.log(data,'////')
+  state.swiperList = data.carousels
+  state.newGoodses = data.newGoodses
+  state.hotGoodses = data.hotGoodses
+  state.recommendGoodses = data.recommendGoodses
   state.loading = false
   closeToast()
   // console.log(state.swiperList)
@@ -108,58 +170,89 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
 // 可以一次性设置widht height 的mixin 混合
 // stylus 提供的tab 缩进 css 提供了模块化的能力？  
 .home-header
-  position absolute
-  top 0
-  left 0    
-  line-height 1.33333rem
-  padding 0 .4rem
-  font-size 0.4rem
-  color #fff
-  z-index 10000
-  wh(100%, 1.33333rem)
-  fj()
-  .nbmenu2
-      color $primary
-  .header-search 
-      display flex
-      width 74%
-      box-sizing content-box
-      height 0.53333rem
-      line-height 0.53333rem
-      margin 0.26667rem 0
-      padding 0.1333rem 0
-      color #232326
-      border-radius .53333rem
-      background rgba(255, 255, 255, .7)
-      .app-name
-          padding 0 0.26667rem
-          color $primary
-          font-size 0.53333rem
-          font-weight bold
-          border-right .026667rem solid #666
-      .icon-search
-          padding 0 .26667rem
-          font-size .45333rem
-      .search-title
-          font-size .32rem
-          color #666
-          line-height 0.56rem
-  .login
-      color $primary
-      line-height 1.38667rem
+    position absolute
+    top 0
+    left 0    
+    line-height 1.33333rem
+    padding 0 .4rem
+    font-size 0.4rem
+    color #fff
+    z-index 10000
+    wh(100%, 1.33333rem)
+    fj()
+    .nbmenu2
+        color $primary
+    .header-search 
+        display flex
+        width 74%
+        box-sizing content-box
+        height 0.53333rem
+        line-height 0.53333rem
+        margin 0.26667rem 0
+        padding 0.1333rem 0
+        color #232326
+        border-radius .53333rem
+        background rgba(255, 255, 255, .7)
+        .app-name
+            padding 0 0.26667rem
+            color $primary
+            font-size 0.53333rem
+            font-weight bold
+            border-right .026667rem solid #666
+        .icon-search
+            padding 0 .26667rem
+            font-size .45333rem
+        .search-title
+            font-size .32rem
+            color #666
+            line-height 0.56rem
+    .login
+        color $primary
+        line-height 1.38667rem
 
 .category-list
-  display flex
-  flex-shrink 0
-  flex-wrap wrap
-  width 100%
-  padding-bottom .34667rem
-  div
-      display flex
-      flex-direction column
-      width 20%
-      text-align center
-      img
-          wh(.96rem, .96rem)
-          margin .346667rem auto .213333rem auto
+    display flex
+    flex-shrink 0
+    flex-wrap wrap
+    width 100%
+    padding-bottom .34667rem
+    div
+        display flex
+        flex-direction column
+        width 20%
+        text-align center
+        img
+            wh(.96rem, .96rem)
+            margin .346667rem auto .213333rem auto
+.goods
+    .goods-header
+        background #f9f9f9
+        height 1.3333rem
+        line-height 1.3333rem
+        text-align center
+        color $primary
+        font-size .426667rem
+        font-weight 500
+    .goods-box
+        fj(flex-start)
+        flex-wrap wrap
+        .goods-item
+            width 50%
+            border-bottom 1px solid #e9e9e9
+            padding .266667rem
+            img
+                display block
+                width 3.2rem
+                margin 0 auto
+            .goods-desc
+                text-align center
+                font-size .37333rem
+                padding .266667rem 0
+                .title
+                    color #222333
+                .price
+                    color $primary
+            &:nth-child(2n+1)
+                border-right 1px solid #e9e9e9
+
 </style>
