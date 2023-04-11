@@ -28,54 +28,36 @@
           <header class="goods-header">新品上线</header>
           <van-skeleton title :row="3" :loading="state.loading">
              <!-- slot 插槽 -->
-              <div class="goods-box">
-                  <div 
-                      class="goods-item" 
-                      v-for="item in state.newGoodses" 
-                      :key="item.goodsId">
-                      <img :src="item.goodsCoverImg" alt="">
-                      <div class="goods-desc">
-                          <div class="title">{{item.goodsName}}</div>
-                          <div class="price">￥{{item.sellingPrice}}</div>
-                      </div>
-                  </div>
-              </div>
+             <div class="goods-box">
+                    <goods-item
+                        v-for="item in state.newGoodses" 
+                        :key="item.goodsId"
+                        :goods="item"/>
+                </div>
           </van-skeleton>
       </section>
       <section class="goods">
           <header class="goods-header">热销商品</header>
           <van-skeleton title :row="3" :loading="state.loading">
              <!-- slot 插槽 -->
-              <div class="goods-box">
-                  <div 
-                      class="goods-item" 
-                      v-for="item in state.hotGoodses" 
-                      :key="item.goodsId">
-                      <img :src="item.goodsCoverImg" alt="">
-                      <div class="goods-desc">
-                          <div class="title">{{item.goodsName}}</div>
-                          <div class="price">￥{{item.sellingPrice}}</div>
-                      </div>
-                  </div>
-              </div>
+             <div class="goods-box">
+                    <goods-item
+                        v-for="item in state.hotGoodses" 
+                        :key="item.goodsId"
+                        :goods="item"/>
+                </div>
           </van-skeleton>
       </section>
       <section class="goods">
           <header class="goods-header">推荐商品</header>
           <van-skeleton title :row="3" :loading="state.loading">
              <!-- slot 插槽 -->
-              <div class="goods-box">
-                  <div 
-                      class="goods-item" 
-                      v-for="item in state.recommendGoodses" 
-                      :key="item.goodsId">
-                      <img :src="item.goodsCoverImg" alt="">
-                      <div class="goods-desc">
-                          <div class="title">{{item.goodsName}}</div>
-                          <div class="price">￥{{item.sellingPrice}}</div>
-                      </div>
-                  </div>
-              </div>
+             <div class="goods-box">
+                    <goods-item
+                        v-for="item in state.recommendGoodses" 
+                        :key="item.goodsId"
+                        :goods="item"/>
+                </div>
           </van-skeleton>
       </section>
   </div>
@@ -88,6 +70,7 @@ import { getHomeData } from '../service/home'
 import { showLoadingToast, closeToast } from 'vant'
 import NavBar from '~/NavBar.vue'
 import swiper from '~/Swiper.vue'
+import GoodsItem from '~/GoodsItem.vue'
 
 // import SubHeader from '../components/SubHeader.vue'
 // es8  异步的高级能力 async await 
@@ -236,23 +219,5 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
     .goods-box
         fj(flex-start)
         flex-wrap wrap
-        .goods-item
-            width 50%
-            border-bottom 1px solid #e9e9e9
-            padding .266667rem
-            img
-                display block
-                width 3.2rem
-                margin 0 auto
-            .goods-desc
-                text-align center
-                font-size .37333rem
-                padding .266667rem 0
-                .title
-                    color #222333
-                .price
-                    color $primary
-            &:nth-child(2n+1)
-                border-right 1px solid #e9e9e9
-
+        
 </style>

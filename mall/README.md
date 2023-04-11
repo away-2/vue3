@@ -1,6 +1,20 @@
 # vue3 写商城
 - 简历需要
 
+- vue3 语法
+    - 过滤器 filters    换了表现形式
+        computed data -> 计算
+        格式转化 进制转换  汇率  语言
+        入口可以配置多个过滤器
+        app.config.globalProperties.$filters = {
+            prefix(url) {
+                if()....
+            }
+        }
+
+- 设计模式
+    DRY Don't repeat yourself
+
 - 工程化  vite
     前端工程化  运行在服务器端  node
     .vue  style lang="stylus"   css  工程  stylus | less
