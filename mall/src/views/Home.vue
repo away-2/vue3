@@ -32,6 +32,7 @@
                     <goods-item
                         v-for="item in state.newGoodses" 
                         :key="item.goodsId"
+                        @click="gotoDetail(item.goodsId)"
                         :goods="item"/>
                 </div>
           </van-skeleton>
@@ -44,6 +45,7 @@
                     <goods-item
                         v-for="item in state.hotGoodses" 
                         :key="item.goodsId"
+                        @click="gotoDetail(item.goodsId)"
                         :goods="item"/>
                 </div>
           </van-skeleton>
@@ -56,6 +58,7 @@
                     <goods-item
                         v-for="item in state.recommendGoodses" 
                         :key="item.goodsId"
+                        @click="gotoDetail(item.goodsId)"
                         :goods="item"/>
                 </div>
           </van-skeleton>
@@ -66,11 +69,14 @@
 
 <script setup>
 import { onMounted, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import { getHomeData } from '../service/home' 
 import { showLoadingToast, closeToast } from 'vant'
 import NavBar from '~/NavBar.vue'
 import swiper from '~/Swiper.vue'
 import GoodsItem from '~/GoodsItem.vue'
+
+const router = useRouter()  // 把全局的路由对象给我们
 
 // import SubHeader from '../components/SubHeader.vue'
 // es8  异步的高级能力 async await 
@@ -130,6 +136,16 @@ const state = reactive({
 ],
 })
 
+const gotoDetail = (id) => {
+  // console.log(id,'gotoDetail')
+  // 地址 /detail/:id
+  console.log(router, '~~~~~~~~~~~')
+  router.push({
+    path: `/detail/${id}`
+  })
+
+}
+
 onMounted(async () => { // 使用了异步同步化的高级技巧
   showLoadingToast({
       message: '加载中...',
@@ -152,8 +168,10 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
 @import '../common/style/mixin'
 // 可以一次性设置widht height 的mixin 混合
 // stylus 提供的tab 缩进 css 提供了模块化的能力？  
+#home-wrapper
+    padding-bottom 2rem
 .home-header
-    position absolute
+    position fixed
     top 0
     left 0    
     line-height 1.33333rem

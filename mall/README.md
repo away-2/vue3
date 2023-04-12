@@ -27,6 +27,8 @@
     子组件和state 诞生依赖关系  热更新 
     components 组件  有利于 页面级组件或大组件更好维护， template 比较简洁
     维护好数据状态  正确
+    - simple-header
+        noback  props  组件的复用和应用场景
 
 
 - 商业应用npm包
@@ -149,5 +151,34 @@
     <van-skeleton :row="3" :loading="state.loading">
         template 显示
     </van-skeleton> 
+
+- 图片懒加载
+    等一等  减少http 请求数
+    - html 文件中 link src img script 启动新的http请求
+        公路一样有限制的    
+        请求并发数  越多的话 页面加载越慢
+    - 可视区内图片加载
+    - 非可视区内延迟加载， 可视区滚动到哪里加载相应
+    - vant 内置了Lazyload
+        vue directives  指令集  自定义指令 v-lazyload
+        命令组件或标签做相应的事情
+        更简单直观
+    - base64 png/jpg 更小  放到css  js 文件中 不需要png 额外的文件， 有效的减少了并发数
+
+- vue-router 细节考点
+    - 懒加载
+    - router-link  激活路由
+        .router-link-active
+    - 路由的跳转
+        - 全局对象  Router  vue-router  useRouter()  组件里随时拿到
+            push    go  cuttentRoute
+        - 当前路由  Router.currentRoute()
+            useRoute() 当前路由对象
+            route.params
+        - useRoute()  使用一下  hooks  编程
+            use开头的函数的称呼
+            vue vue-router  vuex  ...  useRoute  方便我们使用， 函数的方式
+            composition  api  结合的很好
+            
 
                
