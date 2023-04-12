@@ -16,6 +16,9 @@ const router = createRouter({
         {
             path: '/home',
             name: 'home',
+            meta:{
+                index: 1
+            },
             component: Home
         },
         {
@@ -39,9 +42,12 @@ const router = createRouter({
             component: () => import('@/views/User.vue')
         },
         {
-            // 动态路由 url  params  ?id= queryString
+            // 动态路由   url  params   ?id= queryString
             path: '/detail/:id',
             name: 'detail',
+            meta:{
+                index: 3
+            },
             component: () => import('@/views/Detail.vue')
         }
     ]
