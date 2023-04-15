@@ -31,6 +31,12 @@
                 <div class="product-content" v-html=" state.detail.goodsDetailContent "></div>
             </div>
         </div>
+        <van-action-bar>
+            <van-action-bar-icon icon="chat-o" text="客服"></van-action-bar-icon>
+            <van-action-bar-icon icon="cart-o" text="购物车" :badge="3"></van-action-bar-icon>
+            <van-action-bar-button type="warning" text="加入购物车"></van-action-bar-button>
+            <van-action-bar-button type="danger" text="立即购买"></van-action-bar-button>
+        </van-action-bar>
     </div>
 </template>
 
@@ -40,21 +46,79 @@ import { useRoute } from 'vue-router'
 import { getDetail } from '@/service/detail'
 import SimpleHeader from '../components/SimpleHeader.vue'
 // router 是所有的route 集合
+import { showLoadingToast, closeToast } from 'vant'
 
 const route = useRoute(); // 当前的路由
 const state = reactive({
-    detail: {}
+    detail: {},
+    loading: true
 })
 
 onMounted(async () => {
     // console.log(route);
     const { id } = route.params 
+    showLoadingToast({
+      message: '加载中...',
+      forbidClick: true
+  })
     const { data} = await getDetail(id)  // 异步
     state.detail = data 
+    closeToast()
 })
 
 </script>
 
 <style lang="stylus" scoped>
-
+@import '../common/style/mixin'
+.product-detail
+    .detail-content
+        height calc(100vh - 1.33333rem)
+        overflow hidden
+        overflow-y auto
+        .detail-swipe-wrap
+            .my-swipe
+                img
+                    width 100%
+        .product-info
+            padding 0 .26667rem
+            .product-title
+                font-size 0.48rem
+                text-align-last left
+                color #333
+            .product-desc
+                font-size .37333rem
+                text-align-last left
+                color #999
+                padding .13333rem 0
+            .product-price
+                fj()
+                span:nth-child(1)
+                    color #f63515
+                    font-size .58667rem
+                span:nth-child(2)
+                    color #999
+                    font-size .426667rem
+    .product-intro
+        width 100%
+        padding-bottom 1.3333em
+        ul
+            fj()
+            width 100%
+            margin 0.2667rem 0
+            li
+                flex 1
+                padding 0.1333rem 0
+                text-align center
+                font-size .4rem
+                border-right 1px solid #999
+                &:last-child
+                    border-right none
+        .product-content
+            padding 0 .266667rem
+            img
+                width 100%
+.van-action-bar-button--warning
+    background linear-gradient(to right, #6bd9d9, $primary)
+.van-action-bar-button--danger
+    background linear-gradient(to right, #0dc3c3, #098888)
 </style>
