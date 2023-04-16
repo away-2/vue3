@@ -1,83 +1,83 @@
 <template>
-  <div id="home-wrapper">
-      <header class="home-header wrap">
-          <router-link to="/category">
-              <i class="nbicon nbmenu2"></i>
-          </router-link>
-          <div class="header-search">
-              <span class="app-name">新蜂商城</span>
-              <i class="nbicon nbSearch"></i>
-              <router-link 
-                  class="search-title"
-                  to="/product-list?from=home"
-              >
-              山河无恙，人间皆安
-              </router-link>
-          </div>
-          <router-link class="login" to="/login">登录</router-link>
-      </header>
-      <nav-bar />
-      <swiper :list="state.swiperList"/>  
-      <section class="category-list">
-          <div v-for="item in state.categoryList" :key="item.categoryId">
-              <img :src="item.imgUrl">
-              <span>{{item.name}}</span>
-          </div>
-      </section>
-      <section class="goods">
-          <header class="goods-header">新品上线</header>
-          <van-skeleton title :row="3" :loading="state.loading">
-             <!-- slot 插槽 -->
-             <div class="goods-box">
+    <div id="home-wrapper">
+        <header class="home-header wrap" :class="{'active': state.headerScroll}">
+            <router-link to="/category">
+                <i class="nbicon nbmenu2"></i>
+            </router-link>
+            <div class="header-search">
+                <span class="app-name">新蜂商城</span>
+                <i class="nbicon nbSearch"></i>
+                <router-link 
+                    class="search-title"
+                    to="/product-list?from=home"
+                >
+                山河无恙，人间皆安
+                </router-link>
+            </div>
+            <router-link class="login" to="/login">登录</router-link>
+        </header>
+        <nav-bar />
+        <swiper :list="state.swiperList"/>  
+        <section class="category-list">
+            <div v-for="item in state.categoryList" :key="item.categoryId">
+                <img :src="item.imgUrl">
+                <span>{{item.name}}</span>
+            </div>
+        </section>
+        <section class="goods">
+            <header class="goods-header">新品上线</header>
+            <van-skeleton title :row="3" :loading="state.loading">
+                <!-- slot 插槽 -->
+                <div class="goods-box">
                     <goods-item
                         v-for="item in state.newGoodses" 
                         :key="item.goodsId"
                         @click="gotoDetail(item.goodsId)"
                         :goods="item"/>
                 </div>
-          </van-skeleton>
-      </section>
-      <section class="goods">
-          <header class="goods-header">热销商品</header>
-          <van-skeleton title :row="3" :loading="state.loading">
-             <!-- slot 插槽 -->
-             <div class="goods-box">
+            </van-skeleton>
+        </section>
+        <section class="goods">
+            <header class="goods-header">热销商品</header>
+            <van-skeleton title :row="3" :loading="state.loading">
+                <!-- slot 插槽 -->
+                <div class="goods-box">
                     <goods-item
                         v-for="item in state.hotGoodses" 
                         :key="item.goodsId"
                         @click="gotoDetail(item.goodsId)"
                         :goods="item"/>
                 </div>
-          </van-skeleton>
-      </section>
-      <section class="goods">
-          <header class="goods-header">推荐商品</header>
-          <van-skeleton title :row="3" :loading="state.loading">
-             <!-- slot 插槽 -->
-             <div class="goods-box">
+            </van-skeleton>
+        </section>
+        <section class="goods">
+            <header class="goods-header">推荐商品</header>
+            <van-skeleton title :row="3" :loading="state.loading">
+                <!-- slot 插槽 -->
+                <div class="goods-box">
                     <goods-item
                         v-for="item in state.recommendGoodses" 
                         :key="item.goodsId"
+                        :goods="item"
                         @click="gotoDetail(item.goodsId)"
-                        :goods="item"/>
+                        />
                 </div>
-          </van-skeleton>
-      </section>
-  </div>
-
+            </van-skeleton>
+        </section>
+    </div>
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 import { getHomeData } from '../service/home' 
 import { showLoadingToast, closeToast } from 'vant'
 import NavBar from '~/NavBar.vue'
 import swiper from '~/Swiper.vue'
 import GoodsItem from '~/GoodsItem.vue'
+import _ from 'lodash'
 
-const router = useRouter()  // 把全局的路由对象给我们
-
+const router = useRouter() // 把全局的路由对象给我们
 // import SubHeader from '../components/SubHeader.vue'
 // es8  异步的高级能力 async await 
 // 挂载后再发送api 请求， 提升性能， 不会去争抢挂载显示
@@ -86,90 +86,116 @@ const router = useRouter()  // 把全局的路由对象给我们
 // 值会改变 对应新的状态
 // 数据和组件的状态是一一对应关系的 
 const state = reactive({
-  swiperList: [],
-  newGoodses: [],
-  hotGoodses: [],
-  recommendGoodses: [],
-  loading: true,
-  categoryList: [
-  {
-    name: '新蜂超市',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E8%B6%85%E5%B8%82%402x.png',
-    categoryId: 100001
-  }, {
-    name: '新蜂服饰',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E6%9C%8D%E9%A5%B0%402x.png',
-    categoryId: 100003
-  }, {
-    name: '全球购',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%A8%E7%90%83%E8%B4%AD%402x.png',
-    categoryId: 100002
-  }, {
-    name: '新蜂生鲜',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E7%94%9F%E9%B2%9C%402x.png',
-    categoryId: 100004
-  }, {
-    name: '新蜂到家',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%88%B0%E5%AE%B6%402x.png',
-    categoryId: 100005
-  }, {
-    name: '充值缴费',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%85%E5%80%BC%402x.png',
-    categoryId: 100006
-  }, {
-    name: '9.9元拼',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/9.9%402x.png',
-    categoryId: 100007
-  }, {
-    name: '领劵',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E9%A2%86%E5%88%B8%402x.png',
-    categoryId: 100008
-  }, {
-    name: '省钱',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E7%9C%81%E9%92%B1%402x.png',
-    categoryId: 100009
-  }, {
-    name: '全部',
-    imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%A8%E9%83%A8%402x.png',
-    categoryId: 100010
-  }
-],
+    headerScroll: false,
+    swiperList: [],
+    newGoodses: [],
+    hotGoodses: [],
+    recommendGoodses:[],
+    loading: true,
+    categoryList: [
+    {
+      name: '新蜂超市',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E8%B6%85%E5%B8%82%402x.png',
+      categoryId: 100001
+    }, {
+      name: '新蜂服饰',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E6%9C%8D%E9%A5%B0%402x.png',
+      categoryId: 100003
+    }, {
+      name: '全球购',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%A8%E7%90%83%E8%B4%AD%402x.png',
+      categoryId: 100002
+    }, {
+      name: '新蜂生鲜',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E7%94%9F%E9%B2%9C%402x.png',
+      categoryId: 100004
+    }, {
+      name: '新蜂到家',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%88%B0%E5%AE%B6%402x.png',
+      categoryId: 100005
+    }, {
+      name: '充值缴费',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%85%E5%80%BC%402x.png',
+      categoryId: 100006
+    }, {
+      name: '9.9元拼',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/9.9%402x.png',
+      categoryId: 100007
+    }, {
+      name: '领劵',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E9%A2%86%E5%88%B8%402x.png',
+      categoryId: 100008
+    }, {
+      name: '省钱',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E7%9C%81%E9%92%B1%402x.png',
+      categoryId: 100009
+    }, {
+      name: '全部',
+      imgUrl: 'https://s.yezgea02.com/1604041127880/%E5%85%A8%E9%83%A8%402x.png',
+      categoryId: 100010
+    }
+  ],
 })
 
 const gotoDetail = (id) => {
-  // console.log(id,'gotoDetail')
-  // 地址 /detail/:id
-  console.log(router, '~~~~~~~~~~~')
-  router.push({
-    path: `/detail/${id}`
-  })
-
+    // /detail/:id
+    // console.log(id, 'gotoDetail');
+    console.log(router, '///////');
+    router.push({
+        path: `/detail/${id}`
+    })
 }
-
+// console.log(document.querySelector('.category-list'), 'outerOnMounted');
 onMounted(async () => { // 使用了异步同步化的高级技巧
-  showLoadingToast({
-      message: '加载中...',
-      forbidClick: true
-  })
-  // 后台接口数据
-  const { data } = await getHomeData() //  await  promise  api serverice
-  console.log(data,'////')
-  state.swiperList = data.carousels
-  state.newGoodses = data.newGoodses
-  state.hotGoodses = data.hotGoodses
-  state.recommendGoodses = data.recommendGoodses
-  state.loading = false
-  closeToast()
-  // console.log(state.swiperList)
+    console.log('onMounted')
+    showLoadingToast({
+        message: '加载中...',
+        forbidClick: true
+    })
+    // 后台接口数据
+    const { data } = await getHomeData() //  await  promise  api serverice
+    console.log(data, '////')
+    // console.log(data)
+    state.swiperList = data.carousels
+    state.newGoodses = data.newGoodses
+    // console.log(document.querySelector('.goods-box'), 'onMounted');
+    // nextTick(() => {
+    //     console.log(document.querySelector('.goods-box'), 'nextTicked');
+    // })
+    state.hotGoodses = data.hotGoodses
+    state.recommendGoodses = data.recommendGoodses
+    
+    state.loading = false
+    closeToast()
+    // console.log(state.swiperList)
+})
+// state 响应式 
+// onMounted， await  getHomeData   
+// satate.loading = false
+// 热更新 耗时的  dom 更新
+// 什么时候快递到了， 热更新已经完成了 
+nextTick(() => {
+    // 组件挂载了， 且数据绑定模板 已到位
+    // console.log('nextTick----------')
+
+    const setHeaderScroll = () => {
+        // console.log('scroll~~~~')
+        // 滚动的距离
+        let scrollTop = window.pageYOffset || document.documentElement.scrollTop 
+            || document.body.scrollTop 
+        // console.log(scrollTop)
+        scrollTop > 100 ? state.headerScroll = true : state.headerScroll = false;
+    }
+    window.addEventListener('scroll', _.throttle(setHeaderScroll, 200))
 })
 </script>
 
 <style lang="stylus" scoped>
 @import '../common/style/mixin'
 // 可以一次性设置widht height 的mixin 混合
-// stylus 提供的tab 缩进 css 提供了模块化的能力？  
+// stylus 提供的tab 缩进 css 提供了模块化的能力？ 
 #home-wrapper
-    padding-bottom 2rem
+    padding-bottom 2rem 
 .home-header
     position fixed
     top 0
@@ -183,6 +209,12 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
     fj()
     .nbmenu2
         color $primary
+    &.active
+        background $primary
+        .nbmenu2
+            color #fff
+        .login
+            color #fff
     .header-search 
         display flex
         width 74%
@@ -237,5 +269,4 @@ onMounted(async () => { // 使用了异步同步化的高级技巧
     .goods-box
         fj(flex-start)
         flex-wrap wrap
-        
-</style>
+</style>        

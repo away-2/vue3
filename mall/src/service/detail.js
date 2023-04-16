@@ -1,5 +1,5 @@
-import axios from './config'  // axios 标准
+import axios from './config.js'  // axios 标准
 
-export function getDetail(id){
-    return axios.get(`/goods/detail/${id}`)
+export function getDetail(id) {
+    return axios.get(`/goods/detail/${id}`) // promise
 }

@@ -5,10 +5,9 @@
                 <i class="nbicon nbfanhui"></i>
                 <div class="header-search">
                     <i class="nbicon nbSearch"></i>
-                
-                <router-link class="search-title" to="product-list?from=category">
-                    全程50元起步
-                </router-link>
+                    <router-link class="search-title" to="product-list?from=category">
+                    全场50元起步
+                    </router-link>
                 </div>
                 <i class="nbicon nbmore"></i>
             </header>
@@ -29,17 +28,16 @@ const state = reactive({
 
 const router = useRouter()
 
-onMounted(() =>{
+onMounted(() => {
     showLoadingToast({
-      message: '加载中...',
-      forbidClick: true
+        message: '加载中'
     })
     closeToast()
 })
 </script>
 
 <style lang="stylus" scoped>
-@import '../common/style/mixin.styl'
+@import '../common/style/mixin'
 .category
     .category-header
         background #fff

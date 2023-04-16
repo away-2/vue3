@@ -9,35 +9,34 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
-
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 const props = defineProps({
     name: {
         type: String,
-        valus: ''
+        value: ''
     },
     noback: {
         type: Boolean,
         value: false
     }
 })
-const goBack= () =>{
+const goBack = () => {
     router.go(-1)
 }
 </script>
 
 <style lang="stylus" scoped>
-@import '../common/style/mixin.styl'
+@import '../common/style/mixin';
+
 .simple-header
     position fixed
     top 0
     left 0
     z-index 10000
     fj()
-    wh(100%, 1.7333rem)
+    wh(100%, 1.17333rem)
     line-height 1.17333rem
     padding 0 .26667rem
     color #252525
@@ -45,5 +44,5 @@ const goBack= () =>{
     .simple-header-name
         font-size .37333rem
 .block
-    height 1.17333rem
+    height 1.1733rem
 </style>
