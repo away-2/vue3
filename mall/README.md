@@ -245,7 +245,7 @@
             window.addEventListener('scroll')  不会争抢
         - scrollTop
             state.headerScroll
-        - 
+        
 
 
             
